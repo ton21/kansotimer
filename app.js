@@ -1,10 +1,11 @@
 let countdownTimeout;
 let totalRemainingTime;
 let currentIntervalTime;
+const beep = new Audio('./beep.mp3');
 
-const playBeep = () => {
-  const beep = new Audio('./beep.mp3');
+const playBeep = (callback) => {
   beep.play();
+  if (callback) callback();
 };
 
 const updateDisplay = (timeInSeconds) => {
@@ -18,7 +19,6 @@ const resetFields = () => {
     .forEach((item) => (item.value = 0));
 };
 
-// startTimer
 const startTimer = () => {
   const totalMinutesInput = document.querySelector('#totalMinutes');
   const intervalSecondsInput = document.querySelector('#intervalSeconds');
@@ -26,17 +26,20 @@ const startTimer = () => {
   const stopButton = document.querySelector('#stopButton');
 
   const getInputs = () => ({
-    totalMinutes: parseInt(totalMinutesInput.value),
-    intervalSeconds: parseInt(intervalSecondsInput.value),
+    totalMinutes: parseInt(totalMinutesInput.value) || 0,
+    intervalSeconds: parseInt(intervalSecondsInput.value) || 0,
   });
 
   const toSeconds = (minutes) => minutes * 60;
 
-  // countdown
   const countdown = (totalTime, intervalTime) => {
     if (totalTime <= 0) {
-      updateDisplay(0);
-      alert('Time is up!');
+      playBeep(() => {
+        updateDisplay(0);
+        alert('Time is up!');
+        resetFields();
+      });
+
       return;
     }
 
@@ -53,28 +56,35 @@ const startTimer = () => {
     );
   };
 
-  // startCountdown
   const startCountdown = () => {
     const { totalMinutes, intervalSeconds } = getInputs();
-    totalRemainingTime = toSeconds(totalMinutes); // Tempo total restante
-    currentIntervalTime = intervalSeconds; // Tempo restante no intervalo atual
 
     if (countdownTimeout) {
       clearTimeout(countdownTimeout);
     }
 
-    if (totalRemainingTime > 0 && currentIntervalTime > 0) {
-      countdown(totalRemainingTime, currentIntervalTime); // Inicia o contador
+    if (totalMinutes === 0 && intervalSeconds === 0) {
+      alert('Please input a valid time!');
+      return;
+    }
+
+    // Configuração do tempo total e intervalo
+    if (intervalSeconds > 0) {
+      // Divide o tempo em intervalos
+      totalRemainingTime = toSeconds(totalMinutes) + intervalSeconds;
+      currentIntervalTime = intervalSeconds;
+      countdown(totalRemainingTime, currentIntervalTime);
     } else {
-      alert('Please, input valid values!');
+      // Apenas minutos como intervalo único
+      totalRemainingTime = toSeconds(totalMinutes);
+      countdown(totalRemainingTime, totalRemainingTime);
     }
   };
 
   const stopCountdown = () => {
     clearTimeout(countdownTimeout);
-    updateDisplay(0); // Zera a exibição
+    updateDisplay(0);
     resetFields();
-    // alert('Timer interrompido!');
   };
 
   startButton.addEventListener('click', startCountdown);
