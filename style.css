@@ -100,8 +100,7 @@ input {
   justify-content: space-between;
 }
 
-#timeDisplay,
-#intervalsRemaining {
+#timeDisplay {
   font-size: 5rem;
   font-weight: 500;
   /* margin-top: 40px; */
@@ -112,6 +111,11 @@ input {
   font-size: 7rem;
   color: var(--purple);
   font-weight: 500;
+}
+
+#intervalsRemaining {
+  font-size: 2em;
+  margin-bottom: 2rem;
 }
 
 .round-number {
