@@ -100,11 +100,22 @@ input {
   justify-content: space-between;
 }
 
-#timeDisplay {
+#timeDisplay,
+#intervalsRemaining {
   font-size: 5rem;
-  font-weight: 300;
+  font-weight: 500;
   /* margin-top: 40px; */
   text-align: center;
+}
+
+#timeDisplay {
+  font-size: 7rem;
+  color: var(--purple);
+  font-weight: 500;
+}
+
+.round-number {
+  font-weight: 500;
 }
 
 .labels-container {
