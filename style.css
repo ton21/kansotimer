@@ -31,7 +31,7 @@ body {
 
   .content {
     /* width: 100%; */
-    max-width: calc(100% - 2rem);
+    max-width: calc(50% - 2rem);
     border-radius: 8px;
     background-color: #fff;
     padding: 1rem;
@@ -42,6 +42,10 @@ body {
     align-items: center;
     border: solid 1px #eee;
     box-shadow: 0 -3px 44px -3px #c9c9c9;
+
+    @media (max-width: 640px) {
+      max-width: calc(100% - 2rem);
+    }
   }
 }
 
@@ -92,7 +96,7 @@ input {
 
 .buttons-container {
   display: flex;
-  gap: 1rem;
+  gap: 2rem;
   justify-content: space-between;
 }
 
@@ -105,12 +109,9 @@ input {
 
 .labels-container {
   display: flex;
-  gap: 20px;
-  justify-content: space-between;
-  align-items: flex-start;
-  /* max-width: 50%; */
+  gap: 2rem;
+  justify-content: center;
   align-items: center;
-  /* width: 100%; */
   label {
     display: inline-block;
     max-width: 32%;
@@ -118,6 +119,5 @@ input {
     @media (max-width: 640px) {
       max-width: 100%;
     }
-    /* flex */
   }
 }
