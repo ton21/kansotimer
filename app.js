@@ -12,6 +12,12 @@ const updateDisplay = (timeInSeconds) => {
   displayElement.textContent = `${timeInSeconds}`;
 };
 
+const resetFields = () => {
+  document
+    .querySelectorAll('input[type="number"]')
+    .forEach((item) => (item.value = 0));
+};
+
 // startTimer
 const startTimer = () => {
   const totalMinutesInput = document.querySelector('#totalMinutes');
@@ -30,7 +36,7 @@ const startTimer = () => {
   const countdown = (totalTime, intervalTime) => {
     if (totalTime <= 0) {
       updateDisplay(0);
-      alert('Tempo esgotado!');
+      alert('Time is up!');
       return;
     }
 
@@ -53,16 +59,21 @@ const startTimer = () => {
     totalRemainingTime = toSeconds(totalMinutes); // Tempo total restante
     currentIntervalTime = intervalSeconds; // Tempo restante no intervalo atual
 
+    if (countdownTimeout) {
+      clearTimeout(countdownTimeout);
+    }
+
     if (totalRemainingTime > 0 && currentIntervalTime > 0) {
       countdown(totalRemainingTime, currentIntervalTime); // Inicia o contador
     } else {
-      alert('Por favor, insira valores válidos!');
+      alert('Please, input valid values!');
     }
   };
 
   const stopCountdown = () => {
     clearTimeout(countdownTimeout);
     updateDisplay(0); // Zera a exibição
+    resetFields();
     // alert('Timer interrompido!');
   };
 
